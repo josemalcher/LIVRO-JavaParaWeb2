@@ -89,3 +89,5 @@ hs_err_pid*
 target/
 
 # End of https://www.gitignore.io/api/java,eclipse,java-web
+
+99-CodigoDoLivro/mysql-connector-java-5.1.44/
