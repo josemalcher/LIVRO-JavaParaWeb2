@@ -65,12 +65,12 @@ web.xml
 		<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name> 
 		<param-value>true</param-value>
 	</context-param>
-  <!--<welcome-file-list>
+  <!-- <welcome-file-list>
     <welcome-file>index.jsf</welcome-file>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
-  </welcome-file-list>
-</web-app> --> <!-- Removido por falha com o apache 8.5 e 9 -->
+  </welcome-file-list> --> <!-- Removido por falha com o apache 8.5 e 9 ||| ADICIONADO NOVAMENTE DEPOIS QUE ADICIONADO UM ARQUIVOS index.xhtml o bug parou! -->
+</web-app>
 ```
 
 pom.xml
@@ -127,6 +127,154 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 		</dependency>
 	</dependencies>
 </project>
+```
+
+UsuarioBean.java
+```java
+package br.com.javaparaweb.teste;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+
+@ManagedBean(name="usuarioBean")
+@RequestScoped
+public class UsuarioBean {
+
+	private String nome;
+	private String email;
+	private String senha;
+	private String confirmaSenha;
+	
+	public String novo() {
+		return "usuario";
+	}
+	
+	public String salvar() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		if(!this.senha.equalsIgnoreCase(this.confirmaSenha)) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senha confirmada est� ERRADA", ""));
+			return "usuario";
+		}
+		return "mostrausuario";
+	}
+	
+	
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getSenha() {
+		return senha;
+	}
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	public String getConfirmaSenha() {
+		return confirmaSenha;
+	}
+	public void setConfirmaSenha(String confirmaSenha) {
+		this.confirmaSenha = confirmaSenha;
+	}
+	
+	
+}
+
+```
+
+index.xhtml
+```html
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"	>
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Página Inícial</title>
+</h:head>
+<h:body>
+	<h1>Página Principal</h1>
+	<hr />
+		<h:form>
+			<h:commandLink action="#{usuarioBean.novo}">
+				Novo Usuário
+			</h:commandLink>
+		</h:form>
+	<hr />
+</h:body>
+</html>
+```
+usuario.xhtml
+```html
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"	>
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Página de Cadastro de Usuário</title>
+</h:head>
+<h:body>
+	<h1>Cadastro de Usuários</h1>
+	<hr />
+	<h:form acceptcharset="charset=UTF-8"> 
+		<h:messages /> 
+		<h:panelGrid columns="2"> 
+			<h:outputLabel value="Nome:" for="nome" /> 
+			<h:inputText id="nome" label="Nome" value="#{usuarioBean.nome}" required="true" /> 
+			<h:outputLabel value="e-Mail:" for="email" />
+			<h:inputText id="email" label="e-Mail" value="#{usuarioBean.email}" />
+			<h:outputLabel value="Senha:" for="senha" />
+			<h:inputSecret id="senha" label="Senha" value="#{usuarioBean.senha}" required="true" />
+			<h:outputLabel value="Confirmar Senha:" for="confirmaSenha" />
+			<h:inputSecret id="confirmaSenha" label="Confirmar Senha" value="#{usuarioBean.confirmaSenha}" required="true" />
+			<h:outputText /> 
+			<h:commandButton action="#{usuarioBean.salvar}" value="Salvar" /> 
+		</h:panelGrid>
+	</h:form>
+	<hr />
+</h:body>
+</html>
+```
+mostrausuario.xhtml
+```html
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"	>
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Usuários Cadastrados</title>
+</h:head>
+<h:body>
+	<h1>Usuários Cadastrados</h1>
+	<hr />
+	Nome: <h:outputText value="#{usuarioBean.nome}" /> <br/>
+	email: <h:outputLink value="mailto:#{usuarioBean.email}">
+				<h:outputText value="#{usuarioBean.email}" />
+		   </h:outputLink><br/>
+	Senha: <h:outputText value="#{usuarioBean.senha}" /> <br/>
+	<hr/>
+	
+	<h:form>
+		<h:commandLink action="index" value="Início" />
+	</h:form>
+	
+	<hr />
+</h:body>
+</html>
 ```
 
 [Voltar ao Índice](#indice)

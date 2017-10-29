@@ -12,19 +12,19 @@ public class UsuarioBean {
 	private String nome;
 	private String email;
 	private String senha;
-	private String confirmaSena;
+	private String confirmaSenha;
 	
 	public String novo() {
-		return "Usuário";
+		return "usuario";
 	}
 	
 	public String salvar() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		if(!this.senha.equalsIgnoreCase(this.confirmaSena)) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senha confirmada está ERRADA", ""));
-			return "Usuario";
+		if(!this.senha.equalsIgnoreCase(this.confirmaSenha)) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senha confirmada estï¿½ ERRADA", ""));
+			return "usuario";
 		}
-		return "MostraUsuario";
+		return "mostrausuario";
 	}
 	
 	
@@ -46,11 +46,11 @@ public class UsuarioBean {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public String getConfirmaSena() {
-		return confirmaSena;
+	public String getConfirmaSenha() {
+		return confirmaSenha;
 	}
-	public void setConfirmaSena(String confirmaSena) {
-		this.confirmaSena = confirmaSena;
+	public void setConfirmaSenha(String confirmaSenha) {
+		this.confirmaSenha = confirmaSenha;
 	}
 	
 	
