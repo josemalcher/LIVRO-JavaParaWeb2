@@ -65,12 +65,12 @@ web.xml
 		<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name> 
 		<param-value>true</param-value>
 	</context-param>
-  <welcome-file-list>
+  <!--<welcome-file-list>
     <welcome-file>index.jsf</welcome-file>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
   </welcome-file-list>
-</web-app>
+</web-app> --> <!-- Removido por falha com o apache 8.5 e 9 -->
 ```
 
 pom.xml
