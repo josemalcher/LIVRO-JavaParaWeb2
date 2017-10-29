@@ -1,8 +1,12 @@
 package br.com.javaparaweb.teste;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
+@ManagedBean(name="usuarioBean")
+@RequestScoped
 public class UsuarioBean {
 
 	private String nome;
@@ -18,9 +22,9 @@ public class UsuarioBean {
 		FacesContext context = FacesContext.getCurrentInstance();
 		if(!this.senha.equalsIgnoreCase(this.confirmaSena)) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senha confirmada está ERRADA", ""));
-			return "Usuário";
+			return "Usuario";
 		}
-		return "Mostra Usuário";
+		return "MostraUsuario";
 	}
 	
 	
